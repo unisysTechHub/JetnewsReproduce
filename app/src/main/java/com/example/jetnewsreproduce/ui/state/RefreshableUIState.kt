@@ -13,7 +13,7 @@ data class RefreshableUIStateHandler<out T>(val state : RefreshableUIState<T>, v
 @Composable
 fun<T> RefreshableUIStateFrom( repositoryCall: RepositoryCall<T>) : RefreshableUIStateHandler<T>
 {
-    var state: RefreshableUIState<T> by state<RefreshableUIState<T>> {
+    var state by state<RefreshableUIState<T>> {
         RefreshableUIState.Success(data = null, loading = true)
     }
 

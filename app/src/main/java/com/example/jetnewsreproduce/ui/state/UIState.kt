@@ -1,8 +1,6 @@
 package com.example.jetnewsreproduce.ui.state
 
-import androidx.compose.Composable
-import androidx.compose.onActive
-import androidx.compose.state
+import androidx.compose.*
 import com.example.jetnewsreproduce.data.Result
 
 typealias RepositoryCall<T> = ( (Result<T>) -> Unit ) -> Unit
@@ -14,7 +12,7 @@ sealed class UIState<out T>
 }
 @Composable
     fun<T> UIStateFrom( repositoryCall: RepositoryCall<T> ) : UIState<T> {
-    var state : UIState<T>   = state{ UIState.loading } as UIState<T>
+    var state  by state<UIState<T>>{ UIState.loading }
 
     onActive(){
         repositoryCall{

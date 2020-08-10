@@ -1,6 +1,11 @@
 package com.example.jetnewsreproduce
 
 import android.app.Application
+import android.util.Log
+import com.amplifyframework.AmplifyException
+import com.amplifyframework.api.aws.AWSApiPlugin
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.datastore.AWSDataStorePlugin
 import com.example.jetnewsreproduce.data.AppContainer
 import com.example.jetnewsreproduce.data.AppContainerImpl
 
@@ -10,5 +15,16 @@ class JetNewsReproduceApplication : Application()
     override fun onCreate() {
         super.onCreate()
         container = AppContainerImpl(this)
+        try {
+            // Add these lines to add the AWSApiPlugin plugins
+            Amplify.addPlugin(AWSApiPlugin())
+            Amplify.configure(applicationContext)
+            Amplify.addPlugin(AWSDataStorePlugin())
+
+            Log.i("MyAmplifyApp", "Initialized Amplify")
+        } catch (error: AmplifyException) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
+        }
     }
+
 }

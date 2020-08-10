@@ -1,0 +1,15 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-jetnewsreproduce-dev-173257-authRole",
+            "UnauthRoleArn": "arn:aws:iam::124883821192:role/amplify-jetnewsreproduce-dev-173257-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::124883821192:role/amplify-jetnewsreproduce-dev-173257-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-jetnewsreproduce-dev-173257-deployment",
+            "UnauthRoleName": "amplify-jetnewsreproduce-dev-173257-unauthRole",
+            "StackName": "amplify-jetnewsreproduce-dev-173257",
+            "StackId": "arn:aws:cloudformation:us-east-1:124883821192:stack/amplify-jetnewsreproduce-dev-173257/6e6cb650-db01-11ea-8e42-12a417a66525",
+            "AmplifyAppId": "d2hp7z3scd1w7d"
+        }
+    }
+}
