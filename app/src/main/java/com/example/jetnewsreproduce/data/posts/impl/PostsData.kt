@@ -20,7 +20,6 @@ import android.content.res.Resources
 import androidx.ui.graphics.imageFromResource
 import com.example.jetnewsreproduce.R
 import com.example.jetnewsreproduce.model.*
-import kotlin.Metadata
 
 /**
  * Define hardcoded posts to avoid handling any non-ui operations.
@@ -36,8 +35,8 @@ val jose =
     PostAuthor("Jose Alcérreca", "https://medium.com/@JoseAlcerreca")
 
 val publication = Publication(
-    "Android Developers",
-    "https://cdn-images-1.medium.com/max/258/1*u7oZc2_5mrkcFaxkXEyfYA@2x.png"
+        "Android Developers",
+        "https://cdn-images-1.medium.com/max/258/1*u7oZc2_5mrkcFaxkXEyfYA@2x.png"
 )
 val paragraphsPost1 = listOf(
     Paragraph(
@@ -929,7 +928,7 @@ val paragraphsPost5 = listOf(
 
 val post1 = Post(
     id = "dc523f0ed25c",
-    title = "A Little Thing about Android Module Paths",
+        title = "A Little Thing about Android Module Paths",
     subtitle = "How to configure your module paths, instead of using Gradle’s default.",
     url = "https://medium.com/androiddevelopers/gradle-path-configuration-dc523f0ed25c",
     publication = publication,
