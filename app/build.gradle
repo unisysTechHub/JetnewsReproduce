@@ -24,7 +24,7 @@ android {
         }
     }
     compileOptions {
-        coreLibraryDesugaringEnabled true
+     //   coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -58,7 +58,9 @@ dependencies {
     implementation 'com.amplifyframework:aws-datastore:1.1.2'
     implementation 'com.amplifyframework:aws-auth-cognito:1.1.2'
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
-
-
+   // coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.17.1'
+    implementation 'com.amazonaws:aws-android-sdk-ddb-mapper:2.17.1'
+    implementation 'com.amazonaws:aws-android-sdk-ddb:2.17.1'
+    implementation 'com.amazonaws:aws-android-sdk-ddb-document:2.17.1'
 }

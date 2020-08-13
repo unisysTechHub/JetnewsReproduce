@@ -7,8 +7,12 @@ import androidx.compose.Composable
 import androidx.ui.core.setContent
 import androidx.ui.foundation.Text
 import androidx.ui.tooling.preview.Preview
+import com.amplifyframework.auth.result.AuthSignInResult
 import com.amplifyframework.core.Amplify
+import com.example.jetnewsreproduce.dynamodbmapper.JetNewsDynamoDB
+import com.example.jetnewsreproduce.dynamodbmapper.PostsTableItem
 import com.example.jetnewsreproduce.ui.JetnewsReproduceTheme
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,13 +34,41 @@ class MainActivity : AppCompatActivity() {
 //            { result -> Log.i("AuthQuickstart", if (result.isSignUpComplete) "Confirm signUp succeeded" else "Confirm sign up not complete") },
 //            { error -> Log.e("AuthQuickstart", error.toString()) }
 //        )
+
         Amplify.Auth.signIn(
             "clouduser1",
             "Password123",
-            { result -> Log.i("AuthQuickstart", if (result.isSignInComplete) "Sign in succeeded" else "Sign in not complete") },
+            { result ->
+                dbaccess(result = result)
+                Log.i(
+                    "AuthQuickstart",
+                    if (result.isSignInComplete) "Sign in succeeded" else "Sign in not complete"
+                )
+            },
             { error -> Log.e("AuthQuickstart", error.toString()) }
         )
     }
+
+    fun dbaccess(result: AuthSignInResult)
+    {
+
+//       var credentialsProvider = AppCognito.provider(this)
+//
+//      var dbClient  = AmazonDynamoDBClient(credentialsProvider)
+//
+//        dbClient.setRegion(Region.getRegion(Regions.US_EAST_1))
+//
+//        var dbTable = Table.loadTable(dbClient, "Posts")
+//
+//        Log.d("@Ramesh", dbTable.attributes[0].attributeName)
+
+        val itemList = JetNewsDynamoDB.getInstnace()
+                                .getTableItem(PostsTableItem :: class,"post1")
+        Log.d("@Ramesh", itemList.get(0).postid!!)
+
+
+    }
+
 }
 
 @Composable

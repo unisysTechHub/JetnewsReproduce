@@ -9,6 +9,7 @@ import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.AWSDataStorePlugin
 import com.example.jetnewsreproduce.data.AppContainer
 import com.example.jetnewsreproduce.data.AppContainerImpl
+import com.example.jetnewsreproduce.dynamodbmapper.JetNewsDynamoDB
 
 class JetNewsReproduceApplication : Application()
 {
@@ -22,6 +23,7 @@ class JetNewsReproduceApplication : Application()
             Amplify.addPlugin(AWSCognitoAuthPlugin())
             Amplify.addPlugin(AWSDataStorePlugin())
             Amplify.configure(applicationContext)
+            JetNewsDynamoDB.getInstnace().configure(applicationContext)
 
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
