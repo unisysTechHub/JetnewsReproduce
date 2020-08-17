@@ -13,7 +13,7 @@ import com.example.jetnewsreproduce.awsintegration.AppCognito
 import kotlin.reflect.KClass
 
 @DynamoDBTable(tableName = "Posts")
-class PostsTableItem
+ class PostsTableItem
 {
     @DynamoDBHashKey(attributeName = "postid")
      var postid : String? =  null
@@ -24,17 +24,13 @@ class PostsTableItem
 }
 
 @Suppress("UNCHECKED_CAST")
-class JetNewsDynamoDB {
-
-    companion object {
-        private var jetnewsDynamoDB :JetNewsDynamoDB? = null
-        private var client: AmazonDynamoDB? = null
-        fun getInstnace() : JetNewsDynamoDB =
-                jetnewsDynamoDB ?: JetNewsDynamoDB()
-            }
+object JetNewsDynamoDB {
+    private var client: AmazonDynamoDB? = null
 
     fun configure(context: Context)
-    { client = AmazonDynamoDBClient(AppCognito.provider(context = context))
+    {
+        client = AmazonDynamoDBClient(AppCognito.provider(context = context))
+
 
     }
 

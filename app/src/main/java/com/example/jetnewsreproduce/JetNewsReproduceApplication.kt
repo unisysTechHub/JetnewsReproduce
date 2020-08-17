@@ -23,7 +23,7 @@ class JetNewsReproduceApplication : Application()
             Amplify.addPlugin(AWSCognitoAuthPlugin())
             Amplify.addPlugin(AWSDataStorePlugin())
             Amplify.configure(applicationContext)
-            JetNewsDynamoDB.getInstnace().configure(applicationContext)
+            JetNewsDynamoDB.configure(applicationContext)
 
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
