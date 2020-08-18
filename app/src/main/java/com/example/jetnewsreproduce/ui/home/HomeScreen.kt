@@ -14,11 +14,11 @@ import androidx.ui.layout.*
 import androidx.ui.material.*
 import androidx.ui.unit.dp
 import com.example.jetnewsreproduce.data.PostsRepository
+import com.example.jetnewsreproduce.dynamodbmapper.loadJetNewsPostsTable
 import com.example.jetnewsreproduce.model.Post
 import com.example.jetnewsreproduce.ui.snackbarAction
 import com.example.jetnewsreproduce.ui.state.*
 import kotlinx.coroutines.delay
-import java.util.concurrent.atomic.AtomicInteger
 
 @Composable
 fun HomeScreen(postsRepository: PostsRepository, scaffoldState: ScaffoldState = remember  { ScaffoldState()})
@@ -59,11 +59,7 @@ fun HomeScreenBodyWrapper(modifier: Modifier, state : RefreshableUIState<List<Po
                     val (showSnackbarError, updateShowSnackbarError)= stateFor(state){ state is RefreshableUIState.Error}
     Stack(modifier = Modifier.fillMaxSize()) {
         state.currentData?.let {posts ->
-            var count : AtomicInteger = AtomicInteger(0)
-            posts.forEach { post ->
-                count.getAndIncrement()
-                println("@Ramesh $count  $post " ) }
-            println("@Ramesh $posts")
+            loadJetNewsPostsTable(posts = posts)
             HomeScreenBody(posts = posts , modifier = modifier)
         }
         ErrorSnackbar(

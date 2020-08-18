@@ -65,10 +65,12 @@ class MainActivity : AppCompatActivity() {
 
 
         val itemList = JetNewsDynamoDB.getTableItem(PostsTableItem::class, "post1")
-        Log.d("@Ramesh", itemList.get(0).postid!!)
+        Log.d("@Ramesh", itemList.get(0).subtitle!!)
 
 
     }
+
+
 
 }
 
