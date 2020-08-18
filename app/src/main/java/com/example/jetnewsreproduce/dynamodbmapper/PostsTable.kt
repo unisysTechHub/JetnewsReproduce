@@ -17,37 +17,36 @@ import kotlin.reflect.KClass
  class PostsTableItem
 {
     @DynamoDBHashKey(attributeName = "postid")
-     var postid : String? =  null
+     var postid : String? =  "post10"
 
     @DynamoDBAttribute(attributeName = "id")
-     var id : String? = null
+     var id : String? = "null"
 
     @DynamoDBAttribute(attributeName = "title")
-    var title : String? = null
+    var title : String? = "null"
 
     @DynamoDBAttribute(attributeName = "subtitle")
-    var subtitle : String? = null
+    var subtitle : String? = "null"
 
     @DynamoDBAttribute(attributeName = "url")
-    var url : String? = null
+    var url : String? = "null"
 
     @DynamoDBAttribute(attributeName = "publication")
-    var  publication : Publication? = null
+    var  publication : Publication? = Publication()
 
     @DynamoDBAttribute(attributeName = "metadata")
-    var  metadata : Metadata? = null
+    var  metadata : Metadata? = Metadata()
 
 
     @DynamoDBAttribute(attributeName = "paragraphs")
-    var paragraphs : List<Paragraph>? = null
-
+    var paragraphs : List<Paragraph>? = emptyList()
 
 
 }
 @DynamoDBDocument
 class Metadata {
     @DynamoDBAttribute(attributeName = "author")
-     var author: PostAuthor? = null
+    var author: PostAuthor? = null
 
     @DynamoDBAttribute(attributeName = "date")
     var date: String? = null
@@ -58,25 +57,27 @@ class Metadata {
 }
 
 @DynamoDBDocument
-data class PostAuthor(
-        @DynamoDBAttribute(attributeName = "name")
-        val name: String,
-        @DynamoDBAttribute(attributeName = "url")
-        val url: String? = null
-)
+class PostAuthor {
+    @DynamoDBAttribute(attributeName = "name")
+    var name: String? = null
+
+    @DynamoDBAttribute(attributeName = "url")
+    var url: String? = null
+}
 
 @DynamoDBDocument
-class Publication(
-        @DynamoDBAttribute(attributeName = "name")
-        val name: String,
-        @DynamoDBAttribute(attributeName = "logoUrl")
-        val logoUrl: String
-)
+class Publication {
+    @DynamoDBAttribute(attributeName = "name")
+    var name: String? = null
+
+    @DynamoDBAttribute(attributeName = "logoUrl")
+    var logoUrl: String? = null
+}
 
 @DynamoDBDocument
 class Paragraph {
     @DynamoDBAttribute(attributeName = "type")
-    var type: com.example.jetnewsreproduce.dynamodbmapper.ParagraphType? = null
+    var type: String? = null
 
     @DynamoDBAttribute(attributeName = "text")
     var text: String? = null
@@ -96,16 +97,20 @@ enum class ParagraphType {
     Bullet,
 }
 @DynamoDBDocument
- class Markup(
-        @DynamoDBAttribute(attributeName = "type")
-        var type: MarkupType,
-        @DynamoDBAttribute(attributeName = "start")
-        var start: Int,
-        @DynamoDBAttribute(attributeName = "end")
-        var end: Int,
-        @DynamoDBAttribute(attributeName = "href")
-        var href: String? = null
-)
+class Markup {
+    @DynamoDBAttribute(attributeName = "type")
+    var type: String? = null
+
+    @DynamoDBAttribute(attributeName = "start")
+    var start: Int? = null
+
+    @DynamoDBAttribute(attributeName = "end")
+    var end: Int? = null
+
+    @DynamoDBAttribute(attributeName = "href")
+    var href: String? = null
+}
+
 @DynamoDBDocument
 enum class MarkupType {
     Link,
@@ -142,9 +147,12 @@ object JetNewsDynamoDB {
     }
 
 }
-fun markupsDB(markups : List<com.example.jetnewsreproduce.model.Markup>)
+fun markupsDB(markups : List<com.example.jetnewsreproduce.model.Markup>) :List<Markup>
 
-        =    List(markups.size){Markup(MarkupType.valueOf(markups[it].type.toString()),markups[it].start, markups[it].end,markups[it].href)}
+        =    List(markups.size){Markup().apply{this.type = markups[it].type.name
+                                               this.start =markups[it].start
+                                               this.end  = markups[it].end
+                                               this.href =  markups[it].href}}
 
 fun loadJetNewsPostsTable(posts : List<Post>)
 {   val count : AtomicInteger = AtomicInteger(0)
@@ -153,7 +161,8 @@ fun loadJetNewsPostsTable(posts : List<Post>)
           val postsTableItem = PostsTableItem()
             postsTableItem.postid = "post" +  count.incrementAndGet()
             postsTableItem.id = post.id
-            val postAuthor = PostAuthor(post.metadata.author.name,url = post.metadata.author.url)
+            val postAuthor = PostAuthor().apply{this.name =post.metadata.author.name
+                                            url = post.metadata.author.url}
             val metadata = Metadata().apply { this.author =postAuthor
                                               this.date = post.metadata.date
                                               this.readTimeMinutes = post.metadata.readTimeMinutes
@@ -161,13 +170,15 @@ fun loadJetNewsPostsTable(posts : List<Post>)
             postsTableItem.metadata = metadata
             postsTableItem.paragraphs = List<Paragraph>(post.paragraphs.size){
                 val markups = markupsDB(post.paragraphs[it].markups)
-                Paragraph().apply {  type = ParagraphType.valueOf(post.paragraphs[it].type.toString())
+                Paragraph().apply {  type = post.paragraphs[it].type.name
+
                     text = post.paragraphs[it].text
                     this.markups = markups}
 
             }
 
-            postsTableItem.publication = Publication(post.publication!!.name,post.publication.logoUrl)
+            postsTableItem.publication = Publication().apply{this.name = post.publication!!.name
+                                                            logoUrl =post.publication.logoUrl}
             postsTableItem.title = post.title
             postsTableItem.subtitle = post.subtitle
             postsTableItem.url = post.url

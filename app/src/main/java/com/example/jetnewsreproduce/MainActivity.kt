@@ -40,11 +40,13 @@ class MainActivity : AppCompatActivity() {
                 "Password123",
                 { result ->
 
-                    dbaccess(result = result)
                     Log.i(
                             "AuthQuickstart",
                             if (result.isSignInComplete) "Sign in succeeded" else "Sign in not complete"
                     )
+                    dbaccess(result = result)
+
+
                 },
                 { error -> Log.e("AuthQuickstart", error.toString()) }
         )
@@ -64,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 //        Log.d("@Ramesh", dbTable.attributes[0].attributeName)
 
 
-        val itemList = JetNewsDynamoDB.getTableItem(PostsTableItem::class, "post1")
+        val itemList = JetNewsDynamoDB.getTableItem(PostsTableItem::class, "post10")
         Log.d("@Ramesh", itemList.get(0).subtitle!!)
 
 
